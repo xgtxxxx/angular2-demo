@@ -1,0 +1,42 @@
+<style type="text/css">
+    .weekend{
+        background-color: #f1f1f1;
+    }
+    .today{
+        background-color: #FCE1E5;
+    }
+    tbody td:hover{
+        background-color: #dddddd;
+    }
+</style>
+<div  class="container" >
+    <div class="text-center">
+        <div class="form-inline">
+            <a role="button" (click)="prev()">Prev Month</a>
+            <div class="form-group">
+                <input [(ngModel)]="year+symbol+month" class="form-control" style="width: 75px;" readonly>
+            </div>
+            <a role="button" (click)="next()">Next Month</a>
+        </div>
+    </div>
+    <br>
+    <table class="table table-bordered">
+        <thead class="table-header">
+        <tr>
+            <td class="text-center"><strong>Mon</strong></td>
+            <td class="text-center"><strong>Tue</strong></td>
+            <td class="text-center"><strong>Wed</strong></td>
+            <td class="text-center"><strong>Thur</strong></td>
+            <td class="text-center"><strong>Fri</strong></td>
+            <td class="text-center"><strong>Sat</strong></td>
+            <td class="text-center"><strong>Sun</strong></td>
+        </tr>
+        </thead>
+        <tbody class="">
+        <tr *ngFor="let week of weeks">
+            <td class="text-center" [ngClass]="{'weekend': date.type>=3, 'today':date.currentDate}" *ngFor="let date of week">{{date.day==0?'':date.day}}<div>{{date.type>2?'休':date.type==0?'':'班'}}</div></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

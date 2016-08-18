@@ -1,0 +1,58 @@
+<div  class="container" >
+    <div class="text-right">
+        <button type="button" class="btn btn-default" (click)="newVacationDate()">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New
+        </button>
+    </div>
+    <table class="table table-hover">
+        <thead class="table-header">
+        <tr>
+            <td class="text-center"><strong>Date</strong></td>
+            <td class="text-center"><strong>Type</strong></td>
+            <td class="text-center"></td>
+        </tr>
+        </thead>
+        <tbody class="">
+        <tr *ngFor="let date of vacationDates">
+            <td class="text-center">{{date.date}}</td>
+            <td class="text-center">{{date.type==1?'Vacation':'Work Day'}}</td>
+            <td class="text-center"><a role="button" (click)="delete(date)">delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal fade" id="newAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Vacation Date Edit Page</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="username" class="col-sm-4 control-label">Date</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="username" [(ngModel)]="editVacationDate.date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="account" class="col-sm-4 control-label">Type</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="account" [(ngModel)]="editVacationDate.type">
+                                    <option *ngFor="let type of types" value="{{type.id}}">{{type.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="doSave()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

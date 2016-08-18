@@ -1,0 +1,68 @@
+<div  class="container" >
+    <div class="text-right">
+        <button type="button" class="btn btn-default" (click)="newEpicLink()">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New
+        </button>
+    </div>
+    <table class="table table-hover">
+        <thead class="table-header">
+        <tr>
+            <td class="text-center"><strong>Jira Epic Link</strong></td>
+            <td class="text-center"><strong>Odoo Project</strong></td>
+            <td class="text-center"><strong>Is Active</strong></td>
+            <td class="text-center"></td>
+        </tr>
+        </thead>
+        <tbody class="">
+        <tr *ngFor="let link of epicLinks">
+            <td class="text-center">{{link.epicName}}</td>
+            <td class="text-center">{{link.odooProject}}</td>
+            <td class="text-center">{{link.active}}</td>
+            <td class="text-center"><a role="button" (click)="edit(link)">Edit</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal fade" id="newAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">EpicLink Edit Page</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="username" class="col-sm-4 control-label">Jira Epic Link</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" id="username" [(ngModel)]="editEpicLink.epicName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="account" class="col-sm-4 control-label">Odoo Project</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" id="account" [(ngModel)]="editEpicLink.odooProject">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Is Active</label>
+                            <div class="col-sm-8">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" [(ngModel)]="editEpicLink.active">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="doSave()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
