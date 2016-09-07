@@ -4,12 +4,15 @@ import com.b2s.scrumlr.odoo.model.OdooLog;
 import com.b2s.scrumlr.odoo.model.User;
 import com.b2s.scrumlr.odoo.service.OdooService;
 import com.b2s.scrumlr.odoo.service.TimesheetService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
@@ -26,10 +29,17 @@ public class TimesheetServiceImpl implements TimesheetService {
 
     private List<SubmitTimesheetTask> submitTasks;
 
+    private void checkDate(final User user){
+        if(StringUtils.isEmpty(user.getDate())){
+            user.setDate(DateFormatUtils.format(new Date(),"yyyy-MM-dd"));
+        }
+    }
+
     @Override
     public List<OdooLog> logtime(final List<User> users) throws Exception {
         tasks = new CopyOnWriteArrayList<LogTimesheetTask>();
         for(final User user : users){
+            checkDate(user);
             tasks.add(new LogTimesheetTask(user));
         }
         int count = 5;
@@ -89,6 +99,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     public List<User> submitTimesheet(final List<User> users) throws Exception {
         submitTasks = new CopyOnWriteArrayList<SubmitTimesheetTask>();
         for(final User user : users){
+            checkDate(user);
             submitTasks.add(new SubmitTimesheetTask(user));
         }
         int count = 5;

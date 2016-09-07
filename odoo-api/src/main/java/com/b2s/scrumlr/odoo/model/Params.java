@@ -19,6 +19,16 @@ public class Params {
 
     private Context context;
 
+    private Object[] domain;
+
+    private String[] fields;
+
+    private Integer limit;
+
+    private Integer offset;
+
+    private String sort;
+
     public Integer getAction_id() {
         return action_id;
     }
@@ -73,6 +83,46 @@ public class Params {
 
     public void setContext_id(Integer context_id) {
         this.context_id = context_id;
+    }
+
+    public Object[] getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Object[] domain) {
+        this.domain = domain;
+    }
+
+    public String[] getFields() {
+        return fields;
+    }
+
+    public void setFields(String[] fields) {
+        this.fields = fields;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 
     public void setModel(String model) {

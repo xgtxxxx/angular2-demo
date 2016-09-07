@@ -15,21 +15,16 @@ var AppComponent = (function () {
         this.epicLinks = "/epic-links";
         this.users = "/users";
         this.calendar = "/calendar";
+        this.account = "/account";
+        this.loginUser = {};
+        this.hello = "";
         this.routers = [
             { href: this.calendar, name: "calendar" },
             { href: this.users, name: "users" },
             { href: this.epicLinks, name: "epic links" },
-            { href: this.vacationDates, name: "vacation dates" }
+            { href: this.vacationDates, name: "vacation dates" },
+            { href: this.account, name: "Scrumblr account" }
         ];
-        this.setActive = function (router) {
-            for (var i = 0; i < this.routers.length; i++) {
-                if (this.routers[i].active) {
-                    this.routers[i].active = false;
-                    break;
-                }
-            }
-            router.active = true;
-        };
         this.setActiveByPath = function (path) {
             for (var i = 0; i < this.routers.length; i++) {
                 if (this.routers[i].active) {
@@ -44,7 +39,29 @@ var AppComponent = (function () {
                 }
             }
         };
+        this.getQueryString = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return r[2];
+            return null;
+        };
     }
+    AppComponent.prototype.ngOnInit = function () {
+        var name = this.getQueryString("account");
+        var password = this.getQueryString("pwd");
+        this.loginUser = {
+            uname: name,
+            pwd: password
+        };
+        if (name) {
+            this.hello = name;
+        }
+        else {
+            this.hello = sessionStorage.getItem("name");
+        }
+    };
+    ;
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',

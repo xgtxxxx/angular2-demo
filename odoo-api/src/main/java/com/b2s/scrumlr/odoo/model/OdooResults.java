@@ -14,6 +14,7 @@ public class OdooResults {
     private String date;
     private Object[] task_id;
     private Object[] parent_analytic_id;
+    private List period_ids;
 
     public String getState() {
         return state;
@@ -117,6 +118,14 @@ public class OdooResults {
 
     public String getSession_id() {
         return session_id;
+    }
+
+    public List getPeriod_ids() {
+        return period_ids;
+    }
+
+    public void setPeriod_ids(List period_ids) {
+        this.period_ids = period_ids;
     }
 
     public void setSession_id(String session_id) {

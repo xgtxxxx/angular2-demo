@@ -39,6 +39,16 @@ public class User {
 
     private boolean submitStatus;
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    private String date;
+
     public Integer getCompany_id() {
         return company_id;
     }

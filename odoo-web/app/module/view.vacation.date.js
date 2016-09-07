@@ -28,9 +28,8 @@ var VacationDateComponent = (function () {
             var component = this;
             var date = new Date();
             var year = date.getFullYear();
-            this.restfulService.listVacationDates(year).subscribe(function (res) {
-                console.log(res.json());
-                component.vacationDates = res.json();
+            this.restfulService.listVacationDates(year, function (res) {
+                component.vacationDates = res;
             });
         };
         this.newVacationDate = function () {
@@ -39,8 +38,8 @@ var VacationDateComponent = (function () {
         };
         this.doSave = function () {
             var component = this;
-            this.restfulService.saveVacationDate(this.editVacationDate).subscribe(function (res) {
-                if (res.json().key == 'success') {
+            this.restfulService.saveVacationDate(this.editVacationDate, function (res) {
+                if (res.key == 'success') {
                     $("#newAddModal").modal("hide");
                     component.refresh();
                 }
@@ -48,8 +47,8 @@ var VacationDateComponent = (function () {
         };
         this.delete = function (date) {
             var component = this;
-            this.restfulService.deleteVacationDate(date).subscribe(function (res) {
-                if (res.json().key == 'success') {
+            this.restfulService.deleteVacationDate(date, function (res) {
+                if (res.key == 'success') {
                     $("#newAddModal").modal("hide");
                     component.refresh();
                 }

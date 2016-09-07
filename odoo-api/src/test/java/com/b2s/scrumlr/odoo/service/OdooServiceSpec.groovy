@@ -35,7 +35,7 @@ class OdooServiceSpec extends Specification{
         given:
         def User user = new User(
                 name : 'Gavin',
-                sessionId: "1ae39005d0372e2267f5aff415c7ef53e15fa572"
+                sessionId: "a862da831e19dd16da0e29a256c664bdfec3f44e"
         )
         when:
         def u = odooService.getUserId(user);

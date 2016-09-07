@@ -19,11 +19,20 @@ var CalendarComponent = (function () {
         this.month = 0;
         this.year = 0;
         this.symbol = "";
+        this.users = [];
+        this.currentDate = "";
+        this.epicLinks = [];
+        this.editUser = {
+            customs: {
+                projects: []
+            }
+        };
+        this.tasks = ["Build", "Testing", "Plan"];
         this.refresh = function () {
             var component = this;
-            this.restfulService.listCalendar(this.year, this.month).subscribe(function (res) {
-                console.log(res.json());
-                component.weeks = res.json();
+            this.restfulService.listCalendar(this.year, this.month, function (res) {
+                console.log(res);
+                component.weeks = res;
                 if (component.month < 10) {
                     component.symbol = "0";
                 }
@@ -31,6 +40,71 @@ var CalendarComponent = (function () {
                     component.symbol = "";
                 }
             });
+            var d = new Date();
+            var m = d.getMonth() + 1;
+            var ms = '';
+            if (m < 10) {
+                ms = '0' + m;
+            }
+            else {
+                ms = '' + m;
+            }
+            this.currentDate = d.getFullYear() + '-' + ms + '-' + d.getDate();
+            this.getTasks(this.currentDate);
+            this.getEpicLinks();
+        };
+        this.addTask = function (user) {
+            this.editUser = user;
+            $("#newAddModal").modal("show");
+        };
+        this.add = function () {
+            this.editUser.customs.projects.push({});
+        };
+        this.del = function (project) {
+            var projects = [];
+            for (var i = 0; i < this.editUser.customs.projects.length; i++) {
+                if (this.editUser.customs.projects[i] != project) {
+                    projects.push(this.editUser.customs.projects[i]);
+                }
+            }
+            this.editUser.customs.projects = projects;
+            if (projects.length == 0) {
+                this.editUser.customs.active = false;
+            }
+        };
+        this.save = function () {
+            var component = this;
+            this.restfulService.saveCalendarTasks(this.currentDate, this.users, function (res) {
+                if (res.key == 'success') {
+                    $("#newAddModal").modal("hide");
+                    component.refresh();
+                }
+            });
+        };
+        this.getEpicLinks = function () {
+            var component = this;
+            this.restfulService.listEpicLinks(function (res) {
+                component.epicLinks = res;
+            });
+        };
+        this.getTasks = function (date) {
+            var component = this;
+            component.currentDate = date;
+            this.restfulService.listCalendarTasks(date, function (res) {
+                component.users = res;
+            });
+        };
+        this.formatTasks = function (projects) {
+            var task = "";
+            for (var i = 0; i < projects.length; i++) {
+                if (projects[i].project) {
+                    if (i > 0) {
+                        task += ",";
+                    }
+                    task += projects[i].project + "[" + projects[i].task + "] " + projects[i].hours + "h";
+                }
+            }
+            return task;
         };
         this.prev = function () {
             if (this.month == 1) {

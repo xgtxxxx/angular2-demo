@@ -17,6 +17,7 @@ public class OdooResult {
     private Integer product_uom_id;
     private Integer journal_id;
     private OdooValue value;
+    private List<OdooRecord> records;
 
     public OdooValue getValue() {
         return value;
@@ -124,6 +125,14 @@ public class OdooResult {
 
     public String getSession_id() {
         return session_id;
+    }
+
+    public List<OdooRecord> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<OdooRecord> records) {
+        this.records = records;
     }
 
     public void setSession_id(String session_id) {

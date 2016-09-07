@@ -1,4 +1,5 @@
 import { NgModule }       from '@angular/core';
+import {LocationStrategy,HashLocationStrategy} from '@angular/common';
 import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { HTTP_PROVIDERS } from '@angular/http';
@@ -7,7 +8,7 @@ import { AppComponent }   from './app.component';
 import { UsersComponent }   from './module/view.users';
 import { HttpClient } from './service/http.client';
 import { RestfulService } from './service/restful.service';
-
+import {MockData} from './mock/mock.data';
 
 @NgModule({
     imports: [
@@ -21,8 +22,10 @@ import { RestfulService } from './service/restful.service';
     ],
     providers: [
         HTTP_PROVIDERS,
+        {provide: LocationStrategy, useClass: HashLocationStrategy},
         HttpClient,
-        RestfulService
+        RestfulService,
+        MockData
     ],
     bootstrap: [AppComponent]
 })

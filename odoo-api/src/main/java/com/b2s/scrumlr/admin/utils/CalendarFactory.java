@@ -3,7 +3,6 @@ package com.b2s.scrumlr.admin.utils;
 import com.b2s.scrumlr.admin.model.CalendarDate;
 import com.b2s.scrumlr.admin.model.VacationDate;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class CalendarFactory {
         if(!filters.isEmpty()){
             for(final CalendarDate d : dates){
                 for(final VacationDate filter: filters){
-                    if(getFormat().format(d.getDate()).equals(filter.getDate())){
+                    if(d.getType()!=0 && getFormat().format(d.getDate()).equals(filter.getDate())){
                         if(filter.getType()==VacationDate.VACATION){
                             d.setType(CalendarDate.VACATION);
                         }else{

@@ -26,9 +26,8 @@ export class VacationDateComponent implements OnInit{
         var component = this;
         var date = new Date();
         var year = date.getFullYear();
-        this.restfulService.listVacationDates(year).subscribe(function (res:Response) {
-            console.log(res.json());
-            component.vacationDates = res.json();
+        this.restfulService.listVacationDates(year, function(res){
+            component.vacationDates = res;
         });
     }
 
@@ -39,8 +38,8 @@ export class VacationDateComponent implements OnInit{
 
     doSave = function(){
         var component = this;
-        this.restfulService.saveVacationDate(this.editVacationDate).subscribe(function (res:Response) {
-            if(res.json().key=='success'){
+        this.restfulService.saveVacationDate(this.editVacationDate, function(res){
+            if(res.key=='success'){
                 $("#newAddModal").modal("hide");
                 component.refresh();
             }
@@ -49,8 +48,8 @@ export class VacationDateComponent implements OnInit{
 
     delete = function(date){
         var component = this;
-        this.restfulService.deleteVacationDate(date).subscribe(function (res:Response) {
-            if(res.json().key=='success'){
+        this.restfulService.deleteVacationDate(date, function(res){
+            if(res.key=='success'){
                 $("#newAddModal").modal("hide");
                 component.refresh();
             }

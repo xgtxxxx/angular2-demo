@@ -83,13 +83,16 @@
                                     <option *ngFor="let link of epicLinks" value="{{link.odooProject}}">{{link.odooProject}}</option>
                                 </select>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <select class="form-control" [(ngModel)]="project.task" placeholder="Task">
                                     <option *ngFor="let task of tasks" value="{{task}}">{{task}}</option>
                                 </select>
                             </div>
                             <div class="col-sm-2">
                                 <input class="form-control" placeholder="Hours" [(ngModel)]="project.hours">
+                            </div>
+                            <div class="col-sm-1">
+                                <a role="button" (click)="del(project)"><span class="glyphicon glyphicon-minus"></span></a>
                             </div>
                         </div>
                     </div>

@@ -13,26 +13,53 @@ var http_1 = require('@angular/http');
 var HttpClient = (function () {
     function HttpClient(http) {
         this.http = http;
+        this.getToken = function () {
+            var token = sessionStorage.getItem("token");
+            if (token) {
+                return token;
+            }
+            else {
+                window.location.href = "/error.html";
+                return;
+            }
+        };
     }
-    HttpClient.prototype.createAuthorizationHeader = function (headers) {
+    HttpClient.prototype.createAuthorizationHeader = function (headers, isLogin) {
         headers.append('ODOO-API-TOKEN', '1234567890');
-        // headers.append("X-Requested-With","XMLHttpRequest");
+        if (!isLogin) {
+            headers.append('x-auth-token', this.getToken());
+        }
     };
-    HttpClient.prototype.get = function (url) {
+    HttpClient.prototype.toServerError = function () {
+        window.location.href = "/error.html";
+    };
+    HttpClient.prototype.get = function (url, callback) {
+        var clinet = this;
         var headers = new http_1.Headers();
-        this.createAuthorizationHeader(headers);
-        return this.http.get(url, {
+        this.createAuthorizationHeader(headers, false);
+        var result = this.http.get(url, {
             headers: headers,
             method: http_1.RequestMethod.Get
         });
+        this.processResult(result, callback);
     };
-    HttpClient.prototype.post = function (url, data) {
+    HttpClient.prototype.post = function (url, data, callback, isLogin) {
         var headers = new http_1.Headers();
-        this.createAuthorizationHeader(headers);
+        this.createAuthorizationHeader(headers, isLogin);
         headers.append("Content-Type", "application/json");
-        return this.http.post(url, data, {
+        var result = this.http.post(url, data, {
             headers: headers,
             method: http_1.RequestMethod.Post
+        });
+        this.processResult(result, callback);
+    };
+    HttpClient.prototype.processResult = function (result, callback) {
+        var client = this;
+        result.subscribe(function (res) {
+            callback(res.json());
+        }, function (error) {
+            console.log(error);
+            client.toServerError();
         });
     };
     HttpClient = __decorate([

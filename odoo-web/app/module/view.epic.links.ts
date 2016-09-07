@@ -17,9 +17,8 @@ export class EpicLinksComponent implements OnInit{
     };
     getEpicLinks = function(){
         var component = this;
-        this.restfulService.listEpicLinks().subscribe(function (res:Response) {
-            console.log(res.json());
-            component.epicLinks = res.json();
+        this.restfulService.listEpicLinks(function(res){
+            component.epicLinks = res;
         });
     }
 
@@ -30,8 +29,8 @@ export class EpicLinksComponent implements OnInit{
 
     doSave = function(){
         var component = this;
-        this.restfulService.saveEpicLink(this.editEpicLink).subscribe(function (res:Response) {
-            if(res.json().key=='success'){
+        this.restfulService.saveEpicLink(this.editEpicLink, function(res){
+            if(res.key=='success'){
                 $("#newAddModal").modal("hide");
                 component.getEpicLinks();
             }

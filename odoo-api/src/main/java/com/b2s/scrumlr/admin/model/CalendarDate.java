@@ -1,5 +1,9 @@
 package com.b2s.scrumlr.admin.model;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CalendarDate {
@@ -48,6 +52,13 @@ public class CalendarDate {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getStringDate(){
+        if(date==null){
+            date = new Date();
+        }
+        return DateFormatUtils.format(date, "yyyy-MM-dd");
     }
 
     public void setDate(Date date) {

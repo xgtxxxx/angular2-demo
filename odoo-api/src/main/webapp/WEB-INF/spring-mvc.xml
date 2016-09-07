@@ -26,7 +26,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
     <mvc:resources mapping="/**/*.css" location="/" />
     <mvc:resources mapping="/**/*.json" location="/" />
 
-
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
@@ -41,6 +40,10 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
         <mvc:interceptor>
             <mvc:mapping path="/admin/**" />
             <bean class="com.b2s.scrumlr.common.inteceptor.CORSFilter"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**" />
+            <bean class="com.b2s.scrumlr.common.inteceptor.AdminSessionInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
 

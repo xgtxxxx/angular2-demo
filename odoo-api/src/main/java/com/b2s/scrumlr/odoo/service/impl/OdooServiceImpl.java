@@ -6,6 +6,8 @@ import com.b2s.scrumlr.odoo.service.TimesheetService;
 import com.b2s.scrumlr.odoo.utils.JsonUtil;
 import org.apache.commons.codec.language.DoubleMetaphone;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.security.SignatureException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -58,25 +61,65 @@ public class OdooServiceImpl implements OdooService {
         if(user.hasResId()){
             return user;
         }
-        final String url = "https://odoo.bridge2solutions.net/web/action/run";
-        final RequestBody requestBody = new RequestBody();
-        final Params params = new Params();
-        params.setAction_id(398);
-        final Context context = new Context();
-        context.setUid(user.getUserId());
-        context.addParam("action",398);
-        params.setContext(context);
-        requestBody.setParams(params);
-        final String json = this.doRequestPost("getCurrentTimeSheetResId",url, requestBody, user.getSessionId());
-        final OdooResponse response = JsonUtil.fromJson(json, OdooResponse.class);
-        if(response.getResult().getRes_id()==null){
-            user.setShouldCreate(true);
-            initDateToUser(user);
+
+        if(StringUtils.isEmpty(user.getDate()) || user.getDate().equals(DateFormatUtils.format(new Date(),"yyyy-MM-dd"))){
+            final String url = "https://odoo.bridge2solutions.net/web/action/run";
+            final RequestBody requestBody = new RequestBody();
+            final Params params = new Params();
+            params.setAction_id(398);
+            final Context context = new Context();
+            context.setUid(user.getUserId());
+            context.addParam("action",398);
+            params.setContext(context);
+            requestBody.setParams(params);
+            final String json = this.doRequestPost("getCurrentTimeSheetResId",url, requestBody, user.getSessionId());
+            final OdooResponse response = JsonUtil.fromJson(json, OdooResponse.class);
+            if(response.getResult().getRes_id()==null){
+                user.setShouldCreate(true);
+                initDateToUser(user);
+            }else{
+                user.setShouldCreate(false);
+                user.setResId(response.getResult().getRes_id());
+            }
         }else{
-            user.setShouldCreate(false);
-            user.setResId(response.getResult().getRes_id());
+            final String url = "https://odoo.bridge2solutions.net/web/dataset/search_read";
+            final RequestBody requestBody = new RequestBody();
+            final Params params = new Params();
+            final Context context = new Context();
+            context.setUid(user.getUserId());
+            context.setParams(new HashMap<String, Object>());
+            params.setContext(context);
+            params.setDomain(new Object[]{new Object[]{"user_id", "=", user.getUserId()}});
+            params.setFields(new String[]{"employee_id","date_from","date_to","department_id","total_attendance","total_timesheet","total_difference","state"});
+            params.setLimit(80);
+            params.setOffset(0);
+            params.setSort("");
+            params.setModel("hr_timesheet_sheet.sheet");
+            requestBody.setParams(params);
+            final String json = this.doRequestPost("getCurrentTimeSheetResId",url, requestBody, user.getSessionId());
+            final OdooResponse response = JsonUtil.fromJson(json, OdooResponse.class);
+            if(response.getResult().getRecords()!=null && !response.getResult().getRecords().isEmpty()){
+                for(final OdooRecord record: response.getResult().getRecords()){
+                    if(isDateIn(user.getDate(), record.getDate_from(), record.getDate_to())){
+                        user.setResId(record.getId());
+                        break;
+                    }
+                }
+            }
         }
         return user;
+    }
+
+    private boolean isDateIn(final String date, final String date_from, final String date_to) {
+        try {
+            final long now = DateUtils.parseDate(date,"yyyy-MM-dd").getTime();
+            final long start = DateUtils.parseDate(date_from,"yyyy-MM-dd").getTime();
+            final long end = DateUtils.parseDate(date_to,"yyyy-MM-dd").getTime();
+            return now<=end && now>=start;
+        } catch (final ParseException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     private static void initDateToUser(final User user) {
@@ -149,7 +192,7 @@ public class OdooServiceImpl implements OdooService {
         final OdooResponses response = JsonUtil.fromJson(json, OdooResponses.class);
         final OdooResults result = response.getResult()[0];
         user.setEmployeeId((Integer)(result.getEmployee_id()[0]));
-        user.setTimesheetIds(result.getTimesheet_ids());
+        user.setTimesheetIds(result.getTimesheet_ids()==null||result.getTimesheet_ids().isEmpty()?result.getPeriod_ids():result.getTimesheet_ids());
         user.setDateFrom(result.getDate_from());
         user.setDateTo(result.getDate_to());
         return user;

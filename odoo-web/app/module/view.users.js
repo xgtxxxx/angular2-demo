@@ -25,9 +25,8 @@ var UsersComponent = (function () {
         this.tasks = ["Build", "Testing", "Plan"];
         this.refresh = function () {
             var component = this;
-            this.restfulService.listUser().subscribe(function (res) {
-                console.log(res.json());
-                component.users = res.json();
+            this.restfulService.listUser(function (res) {
+                component.users = res;
                 for (var i = 0; i < component.users.length; i++) {
                     var user = component.users[i];
                     if (!user.customs) {
@@ -54,10 +53,22 @@ var UsersComponent = (function () {
             this.editUser = JSON.parse(JSON.stringify(user));
             $("#newAddModal").modal("show");
         };
+        this.del = function (project) {
+            var projects = [];
+            for (var i = 0; i < this.editUser.customs.projects.length; i++) {
+                if (this.editUser.customs.projects[i] != project) {
+                    projects.push(this.editUser.customs.projects[i]);
+                }
+            }
+            this.editUser.customs.projects = projects;
+            if (projects.length == 0) {
+                this.editUser.customs.active = false;
+            }
+        };
         this.doSave = function () {
             var component = this;
-            this.restfulService.saveUser(this.editUser).subscribe(function (res) {
-                if (res.json().key == 'success') {
+            this.restfulService.saveUser(this.editUser, function (res) {
+                if (res.key == 'success') {
                     $("#newAddModal").modal("hide");
                     component.refresh();
                 }
@@ -65,9 +76,8 @@ var UsersComponent = (function () {
         };
         this.getEpicLinks = function () {
             var component = this;
-            this.restfulService.listEpicLinks().subscribe(function (res) {
-                console.log(res.json());
-                component.epicLinks = res.json();
+            this.restfulService.listEpicLinks(function (res) {
+                component.epicLinks = res;
             });
         };
         this.addCustom = function (user) {
