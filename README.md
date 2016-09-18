@@ -8,6 +8,6 @@
 ## 6. 在odoo-web根目录运行npm start，启动web。
 ## 7. 在浏览器地址栏输入http://localhost:3000?account=yourname&pwd=yourpassword
 
-## 注：如果需要了解用webpack打包angular2项目，可以参考branch webpackNg2Demo.<url>https://github.com/xgtxxxx/angular2-demo/tree/webpackNg2Demo</url>
+## 注：如果需要了解用webpack打包angular2项目，可以参考branch webpackNg2Demo.<url>https://github.com/xgtxxxx/angular2-demo/tree/webpackNg2Demo/odoo-web</url>
 
 #如果有朋友对此感兴趣，希望可以分享讨论
