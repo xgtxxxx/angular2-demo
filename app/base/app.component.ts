@@ -19,17 +19,17 @@ export class AppComponent implements OnInit {
     ]
     ngOnInit():void {
         let vm = this;
-        this.appService.getUser().subscribe(
-            res => {
-                vm.user = res.json() as User;
-                if(!vm.activatedRoute){
-                    vm.router.navigate(['/'+AppConstants.ROUTER_USERS]);
-                }
-            },
-            err => {
-                vm.router.navigate(['/'+AppConstants.ROUTER_LOGIN])
-            }
-        )
+        // this.appService.getUser().subscribe(
+        //     res => {
+        //         vm.user = res.json() as User;
+        //         if(!vm.activatedRoute){
+        //             vm.router.navigate(['/'+AppConstants.ROUTER_USERS]);
+        //         }
+        //     },
+        //     err => {
+        //         vm.router.navigate(['/'+AppConstants.ROUTER_LOGIN])
+        //     }
+        // )
     }
     public getUser = function(){
         return this.user;

@@ -6,6 +6,7 @@ export class User {
     public account : Account;
     public authority : string;
     public mailAddress : string;
+    public active : boolean;
     public timesheetTasks : TimeSheetTask[]
     constructor() {  }
 }
