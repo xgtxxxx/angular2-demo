@@ -1,0 +1,19 @@
+<main>
+    <div>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <ul class="nav navbar-nav text-center">
+                        <li><a href="#" class="navbar-brand main-menu">Odoo Admin</a></li>
+                        <li *ngFor="let router of routers" routerLinkActive="active"><a routerLink="/{{router}}">{{router}}</a></li>
+                    </ul>
+                </div>
+                <ul class="nav navbar-nav navbar-right main-menu text-center">
+                    <li><a>Welcome! {{user.name}}</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <router-outlet></router-outlet>
+</main>

@@ -1,0 +1,2 @@
+<button [disabled]="isLoading" type="button" class="btn btn-default" (click)="apply()">{{name}}</button>
+<span *ngIf="isLoading"><img src="../images/loading.gif" height="32px"></span>

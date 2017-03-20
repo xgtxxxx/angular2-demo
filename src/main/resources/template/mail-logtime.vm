@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<style type="text/css">
+    ul {
+        list-style: none;
+    }
+
+    ul li {
+        height: 36px;
+    }
+</style>
+<head>
+    <title></title>
+</head>
+<body>
+<h3></h3>
+<ul>
+    #foreach($user in $users)
+        <li>-------------------------------------------------------------------------</li>
+        #if ($user.success == true && $user.logs.isLoged == true)
+            #foreach($log in $user.logs.bodys)
+                <li>$user.name has log <b>$log.hours</b> hours on project: <b>$log.project -> $log.task</b></li>
+            #end
+        #else
+            <li style="color: red">$user.name log time failed</li>
+        #end
+        <li>-------------------------------------------------------------------------</li>
+    #end
+</ul>
+</body>
+</html>

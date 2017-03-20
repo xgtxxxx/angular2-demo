@@ -1,0 +1,26 @@
+<div class="login-page">
+    <form class="form-horizontal form-container" #loginForm="ngForm">
+        <H2><b>Please Login:</b></H2>
+        <hr>
+        <div class="form-group">
+            <label for="account" class="col-sm-2 control-label">Account</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="account" placeholder="Account" [(ngModel)]="user.account.login" name="account" required #spy>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="user.account.password" name="password" required>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="error">
+            <p class="alert alert-danger">{{error}}</p>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <loading-button [name]="'Sign in'" [(isLoading)]="isLoading" (action)="login()"></loading-button>
+            </div>
+        </div>
+    </form>
+</div>

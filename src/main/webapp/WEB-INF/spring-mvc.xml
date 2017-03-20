@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-4.0.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <!-- enable autoscan -->
+    <context:component-scan base-package="com.b2s.scrumlr"/>
+    <!-- enable autowire -->
+    <context:annotation-config/>
+
+    <mvc:resources mapping="/**/*.js" location="/" />
+    <mvc:resources mapping="/**/*.png" location="/" />
+    <mvc:resources mapping="/**/*.jpg" location="/" />
+    <mvc:resources mapping="/**/*.jpeg" location="/" />
+    <mvc:resources mapping="/**/*.gif" location="/" />
+    <mvc:resources mapping="/**/*.tif" location="/" />
+    <mvc:resources mapping="/**/*.tiff" location="/" />
+    <mvc:resources mapping="/**/*.css" location="/" />
+    <mvc:resources mapping="/**/*.json" location="/" />
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/odoo/**" />
+            <bean class="com.b2s.scrumlr.common.inteceptor.SessionInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <bean id="requestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+        <property name="connectTimeout" value="50000"/>
+        <property name="readTimeout" value="50000" />
+    </bean>
+    <bean id="restClient" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg name="requestFactory" ref="requestFactory"/>
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <constructor-arg value="UTF-8"/>
+                </bean>
+                <bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+</beans>
