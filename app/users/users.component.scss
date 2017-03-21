@@ -21,3 +21,8 @@
 .cell-name{
   padding-left: 36px;;
 }
+.submitted{
+  .ng-invalid{
+    border: 1px solid red;
+  }
+}

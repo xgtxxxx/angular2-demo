@@ -9,6 +9,8 @@ import {LoginComponent} from "../login/login.component";
 import { UsersComponent } from "../users/users.component";
 import { LoadingButton } from "../common/app.common.loading-button";
 import {LocationStrategy, HashLocationStrategy} from "@angular/common";
+import {UsersAddFormComponent} from "../users/users.add-form.component";
+import {UsersEditFormComponent} from "../users/users.edit-form.component";
 
 @NgModule({
     imports: [
@@ -21,7 +23,9 @@ import {LocationStrategy, HashLocationStrategy} from "@angular/common";
         AppComponent,
         LoginComponent,
         UsersComponent,
-        LoadingButton
+        LoadingButton,
+        UsersAddFormComponent,
+        UsersEditFormComponent
     ],
     providers: [
         AppService,

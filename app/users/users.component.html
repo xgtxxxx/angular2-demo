@@ -1,6 +1,6 @@
 <div class="users-page container">
    <div>
-      <button type="button" class="btn btn-default pull-right">
+      <button type="button" class="btn btn-default pull-right" (click)="newUser()">
          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New
       </button>
    </div>
@@ -14,8 +14,7 @@
    <div class="row row-content" *ngFor="let user of users">
       <div class="col-md-3">
          <a role="button" (click)="user.expand = !user.expand">
-            <span class="glyphicon glyphicon-menu-down" *ngIf="!user.expand"></span>
-            <span class="glyphicon glyphicon-menu-up" *ngIf="user.expand"></span>
+            <span class="expand-icon">{{user.expand ? '-' : '+'}}</span>
             {{user.name}}
          </a>
       </div>
@@ -25,9 +24,15 @@
          <span *ngIf="user.active" class="glyphicon glyphicon-ok blue"></span>
       </div>
       <div class="col-md-3">
-         <a role="button" (click)="showDetail(user)">
-            <span class="glyphicon glyphicon-edit"></span>Edit
+         <a role="button" (click)="editUser(user)">
+            <span class="glyphicon glyphicon-edit"></span>
+            Edit
          </a>
+      </div>
+      <div class="expand-row col-md-12" [hidden]="!user.expand">
+         <ul>
+            <li *ngFor="let task of user.timesheetTasks">{{task.project}} - {{task.task}} [{{task.hours}} hours]</li>
+         </ul>
       </div>
    </div>
 </div>
