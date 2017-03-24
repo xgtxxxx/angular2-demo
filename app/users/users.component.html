@@ -1,38 +1,40 @@
 <div class="users-page container">
-   <div>
-      <button type="button" class="btn btn-default pull-right" (click)="newUser()">
-         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New
-      </button>
-   </div>
-   <span class="clearfix"></span>
-   <div class="row row-header">
-      <div class="col-md-3 cell-name">Name</div>
-      <div class="col-md-3">Email</div>
-      <div class="col-md-3">Active</div>
-      <div class="col-md-3">Operation</div>
-   </div>
-   <div class="row row-content" *ngFor="let user of users">
-      <div class="col-md-3">
-         <a role="button" (click)="user.expand = !user.expand">
-            <span class="expand-icon">{{user.expand ? '-' : '+'}}</span>
-            {{user.name}}
-         </a>
-      </div>
-      <div class="col-md-3">{{user.mailAddress}}</div>
-      <div class="col-md-3">
-         <span class="glyphicon glyphicon-remove red" *ngIf="!user.active"></span>
-         <span *ngIf="user.active" class="glyphicon glyphicon-ok blue"></span>
-      </div>
-      <div class="col-md-3">
-         <a role="button" (click)="editUser(user)">
-            <span class="glyphicon glyphicon-edit"></span>
-            Edit
-         </a>
-      </div>
-      <div class="expand-row col-md-12" [hidden]="!user.expand">
-         <ul>
-            <li *ngFor="let task of user.timesheetTasks">{{task.project}} - {{task.task}} [{{task.hours}} hours]</li>
-         </ul>
-      </div>
-   </div>
+    <div>
+        <button type="button" class="btn btn-default pull-right" (click)="newUser()" *ngIf="parent.getUser().authority==='all'">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            New
+        </button>
+    </div>
+    <span class="clearfix"></span>
+    <div class="row row-header">
+        <div class="col-md-3 cell-name">Name</div>
+        <div class="col-md-3">Email</div>
+        <div class="col-md-3">Active</div>
+        <div class="col-md-3">Operation</div>
+    </div>
+    <div class="row row-content" *ngFor="let user of users">
+        <div class="col-md-3">
+            <a role="button" (click)="user.expand = !user.expand">
+                <span class="expand-icon">{{user.expand ? '-' : '+'}}</span>
+                {{user.name}}
+            </a>
+        </div>
+        <div class="col-md-3">{{user.mailAddress}}</div>
+        <div class="col-md-3">
+            <span class="glyphicon glyphicon-remove red" *ngIf="!user.active"></span>
+            <span class="glyphicon glyphicon-ok blue" *ngIf="user.active"></span>
+        </div>
+        <div class="col-md-3">
+            <a role="button" (click)="editUser(user)" *ngIf="parent.getUser().authority==='all' || user.name===parent.getUser().authority">
+                <span class="glyphicon glyphicon-edit"></span>
+                Edit
+            </a>
+        </div>
+
+        <div class="expand-row col-md-12" [hidden]="!user.expand">
+            <ul>
+                <li *ngFor="let task of user.timesheetTasks">{{task.project}} - {{task.task}} [{{task.hours}} hours]</li>
+            </ul>
+        </div>
+    </div>
 </div>

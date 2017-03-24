@@ -19,8 +19,21 @@ public class ConfigService {
     private UserDaoImpl userDao;
 
     public List<User> getUsers(){
-        final List<User> users = userDao.getUsers();
+        final List<User> users = userDao.getUsers(User.class);
         final String date = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
+        initDateForUsers(users, date);
+
+        return users;
+    }
+
+    public List<User> getUsers(final String date){
+        final List<User> users = userDao.getUsers(User.class);
+        initDateForUsers(users, date);
+
+        return users;
+    }
+
+    private void initDateForUsers(final List<User> users, final String date){
         for(final User user : users){
             if(Objects.isNull(user.getDate())){
                 user.setDate(date);
@@ -29,31 +42,6 @@ public class ConfigService {
                 task.setCurrentDate(user.getDate());
             }
         }
-
-        return users;
-//        final User user = new User();
-//        final OdooAccount account = new OdooAccount();
-//        account.setLogin("sliu");
-//        account.setPassword("Dashabi123");
-//        user.setAccount(account);
-//        user.setDate("2017-03-20");
-//        user.setMailAddress("gxi@bridge2solutions.com");
-//        user.setName("Gavin");
-//        final TimesheetTask timesheetTask = new TimesheetTask();
-//        timesheetTask.setProject("Projects / Aspire - Phoenix - Activity");
-//        timesheetTask.setTask("Testing");
-//        timesheetTask.setHours(4);
-//        timesheetTask.setCurrentDate(user.getDate());
-//
-//        final TimesheetTask timesheetTask1 = new TimesheetTask();
-//        timesheetTask1.setProject("Projects / Aspire - Prod Support");
-//        timesheetTask1.setTask("Testing");
-//        timesheetTask1.setHours(4);
-//        timesheetTask1.setCurrentDate(user.getDate());
-//
-//
-//        user.setTimesheetTasks(Arrays.asList(timesheetTask, timesheetTask1));
-//        return Collections.singletonList(user);
     }
 
 }

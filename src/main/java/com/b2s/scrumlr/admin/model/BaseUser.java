@@ -1,14 +1,19 @@
 package com.b2s.scrumlr.admin.model;
 
 import com.b2s.scrumlr.odoo.model.OdooAccount;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import java.io.Serializable;
 
 public class BaseUser implements Serializable {
     private static final long serialVersionUID = 8182893028471355194L;
+    @JsonView(AdminUser.WithoutPasswordView.class)
     private String id;
+    @JsonView(AdminUser.WithoutPasswordView.class)
     private String name;
+    @JsonView(AdminUser.WithoutPasswordView.class)
     private OdooAccount account;
+    @JsonView(AdminUser.WithoutPasswordView.class)
     private String authority;
 
     public String getId() {
@@ -42,4 +47,5 @@ public class BaseUser implements Serializable {
     public void setAuthority(final String authority) {
         this.authority = authority;
     }
+
 }

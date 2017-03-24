@@ -19,6 +19,8 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
         }
         final Object user = request.getSession().getAttribute(Constants.USER);
         if (user == null) {
+            response.setHeader("sessionstatus", "timeout");
+            response.setStatus(404);
             response.getWriter().print(JsonUtil.toJson(new ResponseMap(false, "No access!")));
             return false;
         } else {

@@ -14,27 +14,40 @@ export class AppComponent implements OnInit {
         @Inject(ActivatedRoute) private activatedRoute : ActivatedRoute,
         @Inject(AppService) private appService : AppService) { }
     private user = new User();
+    private loading = false;
     private routers = [
-        AppConstants.ROUTER_USERS
+        {
+            link : AppConstants.ROUTER_USERS,
+            authority : ''
+        },{
+            link :  AppConstants.ROUTER_OPERATE,
+            authority : 'all'
+        }
     ]
     ngOnInit():void {
+        this.loading = true;
         let vm = this;
-        // this.appService.getUser().subscribe(
-        //     res => {
-        //         vm.user = res.json() as User;
-        //         if(!vm.activatedRoute){
-        //             vm.router.navigate(['/'+AppConstants.ROUTER_USERS]);
-        //         }
-        //     },
-        //     err => {
-        //         vm.router.navigate(['/'+AppConstants.ROUTER_LOGIN])
-        //     }
-        // )
+        this.appService.getCurrentUser().subscribe(
+            res => {
+                vm.user = res.json() as User;
+                vm.loading = false;
+                if(!vm.activatedRoute){
+                    vm.router.navigate(['/'+AppConstants.ROUTER_USERS]);
+                }
+            },
+            err => {
+                vm.loading = false;
+                vm.router.navigate(['/'+AppConstants.ROUTER_LOGIN]);
+            }
+        )
     }
     public getUser = function(){
         return this.user;
     }
     public setUser = function(user){
         this.user = user;
+    }
+    public checkAuthority(){
+        return this.loading ? 'all' : this.user.authority == 'all';
     }
 }

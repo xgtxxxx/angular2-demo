@@ -1,12 +1,16 @@
 package com.b2s.scrumlr.admin.model;
 
 import com.b2s.scrumlr.odoo.model.TimesheetTask;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.List;
 
 public class AdminUser extends BaseUser {
+    @JsonView(WithoutPasswordView.class)
     private boolean active;
+    @JsonView(WithoutPasswordView.class)
     private String mailAddress;
+    @JsonView(WithoutPasswordView.class)
     private List<TimesheetTask> timesheetTasks;
 
     public String getMailAddress() {
@@ -32,4 +36,7 @@ public class AdminUser extends BaseUser {
     public void setActive(final boolean active) {
         this.active = active;
     }
+
+    public interface WithoutPasswordView {};
+    public interface WithPasswordView extends WithoutPasswordView {};
 }

@@ -1,13 +1,19 @@
 package com.b2s.scrumlr.odoo.model;
 
+import com.b2s.scrumlr.admin.model.AdminUser;
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class TimesheetTask {
+    @JsonView(AdminUser.WithoutPasswordView.class)
     private String project;
 
     private String projectName;
 
     private String taskName;
+    @JsonView(AdminUser.WithoutPasswordView.class)
     private String task;
     private String currentDate;
+    @JsonView(AdminUser.WithoutPasswordView.class)
     private double hours;
     private Integer projectId;
 

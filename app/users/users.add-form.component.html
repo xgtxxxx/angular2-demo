@@ -4,7 +4,7 @@
    </div>
    <hr/>
    <div class="clearfix">
-      <form class="form-horizontal" [class.submitted]="submitted">
+      <form class="form-horizontal" [class.submitted]="submitted" #f="ngForm" autocomplete="off">
          <div class="form-group">
             <label for="name" class="col-md-2 control-label">Name</label>
             <div class="col-md-6">
@@ -33,7 +33,7 @@
             <label for="active" class="col-md-2 control-label"></label>
             <div class="col-md-6">
                <label class="checkbox-inline">
-                  <input type="checkbox" id="active" name="active" value="option1" [(ngModel)]="newUser.active" required> Is Active
+                  <input type="checkbox" id="active" name="active" value="option1" [(ngModel)]="newUser.active"> Is Active
                </label>
                <a role="button" class="pull-right expand-icon" (click)="addTask()"><span class="glyphicon glyphicon-plus-sign"></span></a>
                <hr/>
@@ -56,8 +56,9 @@
             <div class="col-md-1"><a role="button" (click)="deleteTask(i)"><span class="glyphicon glyphicon-minus-sign control-label"></span></a></div>
          </div>
          <div class="form-group">
+            <div [hidden]="!error"  class="alert alert-danger">{{error}}</div>
             <div class="col-md-offset-2 col-md-6 text-right">
-               <button type="button" class="btn btn-info" (click)="saveUser()">Save</button>
+               <button type="button" class="btn btn-info" (click)="saveUser(f.valid)">Save</button>
                &nbsp;
                <button type="button" class="btn btn-default" (click)="clearForm()">Clear</button>
             </div>

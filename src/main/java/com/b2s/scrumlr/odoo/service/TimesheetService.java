@@ -1,5 +1,6 @@
 package com.b2s.scrumlr.odoo.service;
 
+import com.b2s.scrumlr.admin.model.AdminLogTask;
 import com.b2s.scrumlr.odoo.model.EmailEvent;
 import com.b2s.scrumlr.odoo.model.EmailType;
 import com.b2s.scrumlr.odoo.model.User;
@@ -10,6 +11,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TimesheetService {
@@ -24,8 +26,37 @@ public class TimesheetService {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
+    /**
+     * Admin log
+     * @param task
+     */
+    public void logtime(final AdminLogTask task) {
+        final List<User> users = configService.getUsers(task.getDate());
+        final List<User> selectedUsers =
+            users
+                .stream()
+                .filter(user -> isSelected(task.getUserIds(), user.getId()))
+                .collect(Collectors.toList());
+        doLogtime(selectedUsers);
+    }
+
+    private boolean isSelected(final List<String> ids, final String id) {
+        return ids
+            .stream()
+            .filter(selectedId -> selectedId.equals(id))
+            .findAny()
+            .isPresent();
+    }
+
+    /**
+     * auto log job
+     */
     public void logtime() {
         final List<User> users = configService.getUsers();
+        doLogtime(users);
+    }
+
+    private void doLogtime(final List<User> users){
         for (final User user : users) {
             this.doLogtime(user);
         }

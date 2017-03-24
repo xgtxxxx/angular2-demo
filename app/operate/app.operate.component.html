@@ -1,0 +1,22 @@
+<div class="container">
+    <form class="form-inline">
+        <button class="btn btn-default" (click)="selectAll()">All</button>
+        <button class="btn btn-default" (click)="clear()">Clear</button>
+        <div class="pull-right">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date" name="date" [(ngModel)]="date" required>
+            </div>
+            <loading-button [name]="'Log Time'" [(isLoading)]="isLoading" (action)="log()"></loading-button>
+        </div>
+    </form>
+    <br>
+    <div class="alert alert-danger" [hidden]="!error">{{error}}</div>
+    <div class="alert alert-success" [hidden]="!message">{{message}}</div>
+    <hr>
+    <div class="col-md-3" *ngFor="let user of users; let i=index">
+        <label class="checkbox-inline" >
+            <input type="checkbox" name="user{{i}}" [(ngModel)]="user.selected"  value="user.selected"> {{user.name}}
+        </label>
+    </div>
+</div>

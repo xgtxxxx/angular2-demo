@@ -6,11 +6,12 @@
                 <div class="navbar-header">
                     <ul class="nav navbar-nav text-center">
                         <li><a href="#" class="navbar-brand main-menu">Odoo Admin</a></li>
-                        <li *ngFor="let router of routers" routerLinkActive="active"><a routerLink="/{{router}}">{{router}}</a></li>
+                        <li *ngFor="let router of routers" routerLinkActive="active" [class.hidden]="router.authority ? user.authority!=router.authority : false"><a routerLink="/{{router.link}}">{{router.link}}</a></li>
                     </ul>
                 </div>
                 <ul class="nav navbar-nav navbar-right main-menu text-center">
                     <li><a>Welcome! {{user.name}}</a></li>
+                    <li><a routerLink="/login">Logout.</a></li>
                 </ul>
             </div>
         </nav>

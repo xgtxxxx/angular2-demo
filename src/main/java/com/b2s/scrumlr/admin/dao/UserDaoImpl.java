@@ -1,19 +1,14 @@
 package com.b2s.scrumlr.admin.dao;
 
+import com.b2s.scrumlr.admin.model.AdminUser;
 import com.b2s.scrumlr.admin.model.KeyValueParamter;
 import com.b2s.scrumlr.admin.model.ScrumblrAccount;
 import com.b2s.scrumlr.admin.model.ScrumblrUser;
-import com.b2s.scrumlr.odoo.model.User;
 import com.b2s.scrumlr.odoo.utils.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class UserDaoImpl extends BaseDao {
@@ -21,13 +16,28 @@ public class UserDaoImpl extends BaseDao {
 
     private static final String TABLE_NAME_BY_DATE = "customsTasks";
 
-
     private static final String TABLE_NAME_USERS = "odooUsers";
 
+    public void saveUser(final AdminUser user) {
+        if (StringUtils.isBlank(user.getId())) {
+            user.setId(UUID.randomUUID().toString());
+            user.setAuthority(user.getName());
+        }
+        save(new KeyValueParamter(user.getId(),user), TABLE_NAME_USERS);
+    }
+
+    public void deleteUser(final String key) {
+        delete(TABLE_NAME_USERS, key);
+    }
+
+    public AdminUser getUser(final String key) {
+        return JsonUtil.fromJson(get(TABLE_NAME_USERS, key).toString(), AdminUser.class);
+    }
+
     @SuppressWarnings("unchecked")
-    public List<User> getUsers() {
+    public <T> List<T> getUsers(final Class<T> clazz) {
         final Object result = query(TABLE_NAME_USERS);
-        final List<User> users = new ArrayList<>();
+        final List<T> users = new ArrayList<>();
         if (result != null) {
             Map<String, String> map = null;
             if (result instanceof Map) {
@@ -35,7 +45,7 @@ public class UserDaoImpl extends BaseDao {
             }
             final Collection<String> jsons = map.values();
             for (final String json : jsons) {
-                users.add(JsonUtil.fromJson(json, User.class));
+                users.add(JsonUtil.fromJson(json, clazz));
             }
         }
 

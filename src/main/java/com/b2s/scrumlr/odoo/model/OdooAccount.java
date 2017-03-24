@@ -1,7 +1,12 @@
 package com.b2s.scrumlr.odoo.model;
 
+import com.b2s.scrumlr.admin.model.AdminUser;
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class OdooAccount {
+    @JsonView(AdminUser.WithoutPasswordView.class)
     private String login;
+    @JsonView(AdminUser.WithPasswordView.class)
     private String password;
 
     public OdooAccount() {
