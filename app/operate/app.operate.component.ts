@@ -6,7 +6,6 @@ import {AppComponent} from "../base/app.component";
 import { Router } from "@angular/router";
 import AppConstants from "../base/app.constants";
 import {Account} from "../model/Account";
-import moment from "moment";
 @Component({
     selector: 'app-operate',
     templateUrl: './app.operate.component.html'
@@ -95,6 +94,7 @@ export class AppOperateComponent{
     private init(){
         let vm = this;
         vm.isLoading = true;
+        var moment = require('moment');
         vm.date = moment().format('YYYY-MM-DD');
         vm.appService.getUsers().subscribe(
             res => {

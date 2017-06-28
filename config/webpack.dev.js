@@ -7,12 +7,9 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = webpackMerge(commonConfig, {
     plugins: [
-        // Workaround for angular/angular#11580
         new webpack.ContextReplacementPlugin(
-            // The (\\|\/) piece accounts for path separators in *nix and Windows
-            /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-            helpers.root('./app'), // location of your src
-            {} // a map of your routes
+            /angular(\\|\/)core(\\|\/)@angular/,
+            helpers.root('./app')
         ),
 
         new webpack.optimize.CommonsChunkPlugin({
