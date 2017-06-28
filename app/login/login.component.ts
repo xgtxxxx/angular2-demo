@@ -26,11 +26,11 @@ export class LoginComponent implements OnInit{
     ngOnInit():void {
     }
 
-    public login(){
+    public login(demo){
         let vm = this;
         vm.error = '';
         vm.isLoading = true;
-        this.appService.login(this.user).subscribe(
+        this.appService.login(this.user, demo).subscribe(
             res => {
                 let user = res.json() as User;
                 vm.parent.setUser(user);

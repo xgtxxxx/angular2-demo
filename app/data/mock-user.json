@@ -1,0 +1,15 @@
+{
+  "id": "1c9fccec-dfc0-4965-9073-3ace26de1b7d",
+  "name": "David",
+  "account": {
+    "login": "David"
+  },
+  "authority": "David",
+  "active": true,
+  "mailAddress": "David@demo.com",
+  "timesheetTasks": [{
+    "project": "Architecture Design",
+    "task": "build",
+    "hours": 8.0
+  }]
+}

@@ -1,0 +1,45 @@
+[{
+  "id": "1c9fccec-dfc0-4965-9073-3ace26de1b7d",
+  "name": "David",
+  "account": {
+    "login": "David"
+  },
+  "authority": "David",
+  "active": true,
+  "mailAddress": "David@demo.com",
+  "timesheetTasks": [{
+    "project": "Architecture Design",
+    "task": "build",
+    "hours": 8.0
+  }]
+},
+  {
+    "id": "6eeb4b39-a0b8-4671-9475-6b8b1547623e",
+    "name": "Judy",
+    "account": {
+      "login": "Judy"
+    },
+    "authority": "Judy",
+    "active": false,
+    "mailAddress": "Judy@demo.com",
+    "timesheetTasks": [{
+      "project": "Projects Development",
+      "task": "Build",
+      "hours": 8.0
+    }]
+  },
+  {
+    "id": "5e4d7b97-d928-4acd-aa49-c6aabc155f02",
+    "name": "Sandy",
+    "account": {
+      "login": "Sandy"
+    },
+    "authority": "Sandy",
+    "active": true,
+    "mailAddress": "Sandy@demo.com",
+    "timesheetTasks": [{
+      "project": "QA Test",
+      "task": "test",
+      "hours": 8.0
+    }]
+  }]
